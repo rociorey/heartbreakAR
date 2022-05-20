@@ -7,7 +7,7 @@ const server = require('http').createServer(app);
 
 // Setting up airtable
 var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keyjOjEJi89anFpa8'}).base('appgC9I1SyuOTCYEw');
+var base = new Airtable({apiKey: 'THEKEY'}).base('appgC9I1SyuOTCYEw');
 
 // Setting up socket.io
 const io = require('socket.io')(server);
