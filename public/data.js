@@ -1,5 +1,5 @@
 
-let socket = io();
+// let socket = io();
 
 let latData, longData;
 var modelNumber;
@@ -14,16 +14,16 @@ let heartbreakModel2 = document.getElementById('#heartModel2');
 getLocation();
 
 //data not coming through in client side
-socket.on('airtableData', (data)=> {
-  console.log(data);
+// socket.on('airtableData', (data)=> {
+//   console.log(data);
 
-})
+// })
 
 model1Button.addEventListener('click',event => {
   heartbreakModel2.setAttribute('visible', true);
 
     const data = {latData, longData,modelNumber};
-  socket.emit('userInputData', data);
+//   socket.emit('userInputData', data);
 
 })
 
@@ -31,10 +31,77 @@ model2Button.addEventListener('click',event => {
   modelNumber = 2;
     const data = {latData, longData,modelNumber };
   // console.log(data);
-  socket.emit('userInputData', data);
+//   socket.emit('userInputData', data);
 
 })
 
+// Setting up airtable
+var Airtable = require('airtable');
+var base = new Airtable({apiKey: 'THEKEY'}).base('appgC9I1SyuOTCYEw');
+
+// Setting up socket.io
+// const io = require('socket.io')(server);
+
+// let path = require('path');
+// const { serialize } = require('v8');
+
+// app.use(express.static('public'));
+
+// Creating variables for position info
+var latData, longData;
+
+
+// app.get('/', function (req,res){
+//     res.sendFile(path.join(__dirname + '/views/index.html'));
+// });
+
+
+
+base('User Data').create([
+        {
+          "fields": {
+            "Model": data.modelNumber,
+             "Latitude": data.latData,
+            "Longitude": data.longData
+          }
+        },
+      ], function(err, records) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        records.forEach(function (record) {
+          console.log(record.fields);
+        });
+      });
+
+
+
+// Airtable fetching
+var latData;
+
+base('User Data').select({
+    // Selecting the first 3 records in Grid view:
+    maxRecords: 3,
+    view: "Grid view"
+}).eachPage(function page(records, fetchNextPage) {
+    // This function (`page`) will get called for each page of records.
+
+    records.forEach(function(record) {
+      const airtableLat = record.get('Latitude');
+      const airtableLong = record.get('Longitude');
+      const airtableModel = record.get('Model');
+      const airtableDate = record.get('Date');
+
+      const data = {airtableLat, airtableLong, airtableModel, airtableDate};
+      // console.log(data);
+//       socket.emit('airtableData', data);
+    });
+    fetchNextPage();
+
+}, function done(err) {
+    if (err) { console.error(err); return; }
+});
 
 
 // AR
