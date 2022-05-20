@@ -47,9 +47,6 @@ var base = new Airtable({apiKey: 'THEKEY'}).base('appgC9I1SyuOTCYEw');
 
 // app.use(express.static('public'));
 
-// Creating variables for position info
-var latData, longData;
-
 
 // app.get('/', function (req,res){
 //     res.sendFile(path.join(__dirname + '/views/index.html'));
