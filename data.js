@@ -75,7 +75,7 @@ base('User Data').create([
 
 
 // Airtable fetching
-var latData;
+// var latData;
 
 base('User Data').select({
     // Selecting the first 3 records in Grid view:
@@ -85,12 +85,12 @@ base('User Data').select({
     // This function (`page`) will get called for each page of records.
 
     records.forEach(function(record) {
-      const airtableLat = record.get('Latitude');
-      const airtableLong = record.get('Longitude');
-      const airtableModel = record.get('Model');
-      const airtableDate = record.get('Date');
+      let airtableLat = record.get('Latitude');
+      let airtableLong = record.get('Longitude');
+      let airtableModel = record.get('Model');
+      let airtableDate = record.get('Date');
 
-      const data = {airtableLat, airtableLong, airtableModel, airtableDate};
+      let airtableData = {airtableLat, airtableLong, airtableModel, airtableDate};
       // console.log(data);
 //       socket.emit('airtableData', data);
     });
@@ -105,8 +105,8 @@ base('User Data').select({
 
   // Note to self: this wasn't working in mobile since the location wasn't super accurate. Once I added the exact location it worked
   // I guess in the future this would be the data stored in Airtable?
-  var myLat=51.5518948;
-  var myLong= -0.1519312;
+  let myLat=51.5518948;
+  let myLong= -0.1519312;
 
   
   // boolean to show the box
